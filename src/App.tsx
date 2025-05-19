@@ -5,6 +5,7 @@ import LocationInput from './components/LocationInput'
 import RouteMap from './components/RouteMap'
 import Spinner from './components/Spinner'
 import { optimizeRoute } from './api/mockApi'
+import { generateGPX, downloadGPX } from './utils/gpxGenerator'
 
 function App() {
   const [startLocation, setStartLocation] = useState<Coordinates | null>(null)
@@ -70,6 +71,12 @@ function App() {
     window.open(url, '_blank')
   }
 
+  const handleDownloadGPX = () => {
+    if (!optimizedRoute || !startLocation) return
+    const gpxContent = generateGPX(startLocation, optimizedRoute.waypoints)
+    downloadGPX(gpxContent)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-[#027D46] shadow-sm">
@@ -92,22 +99,32 @@ function App() {
                 </div>
               )}
 
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-4">
                 <button
                   onClick={handleOptimizeRoute}
                   disabled={!startLocation || waypoints.length === 0 || isLoading}
-                  className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   {isLoading ? <Spinner /> : 'Optimize Route'}
                 </button>
                 
-                <button
-                  onClick={handleExportToGoogleMaps}
-                  disabled={!optimizedRoute}
-                  className="btn btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Export to Google Maps
-                </button>
+                {optimizedRoute && (
+                  <>
+                    <button
+                      onClick={handleDownloadGPX}
+                      className="btn btn-primary bg-[#027D46] hover:bg-[#025D34] flex items-center justify-center"
+                    >
+                      Download GPX
+                    </button>
+                    
+                    <button
+                      onClick={handleExportToGoogleMaps}
+                      className="btn btn-secondary flex items-center justify-center"
+                    >
+                      Export to Google Maps
+                    </button>
+                  </>
+                )}
               </div>
 
               <div className="text-sm text-gray-500">
