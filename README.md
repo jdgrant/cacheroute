@@ -1,28 +1,22 @@
-# cacheroute.io
+# Cacheroute.io
 
-A web application for optimizing geocaching routes by finding the most efficient path between multiple waypoints.
+A web application for optimizing geocaching routes. Upload your GPX files or enter coordinates manually, and get an optimized route that follows actual roads.
 
 ## Features
 
-- Upload GPX files containing waypoints
-- Enter starting location via coordinates or address
-- Optimize route using Traveling Salesman Problem (TSP) algorithm
-- Display route on an interactive map
-- Export optimized route to Google Maps
-- Modern, responsive UI with Tailwind CSS
+- GPX file upload support
+- Manual coordinate/address input
+- Route optimization using nearest neighbor algorithm
+- Road-following routes using OSRM
+- Interactive map with Leaflet
+- Export routes to Google Maps
+- Modern UI with Tailwind CSS
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v14 or later)
-- npm (v6 or later)
-
-### Installation
+## Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/cacheroute.git
+git clone [your-repo-url]
 cd cacheroute
 ```
 
@@ -36,28 +30,32 @@ npm install
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`.
+4. Open your browser and navigate to the URL shown in the terminal (usually http://localhost:5173)
 
 ## Usage
 
-1. Upload a GPX file containing waypoints using the file upload button
-2. Enter your starting location using either:
-   - Latitude/Longitude coordinates
-   - Street address (geocoded using OpenStreetMap)
-3. Click "Optimize Route" to calculate the most efficient path
-4. View the optimized route on the map
-5. Click "Export to Google Maps" to open the route in Google Maps
+1. Upload a GPX file or enter coordinates manually
+2. The first point will be set as the starting location
+3. Click "Optimize Route" to generate the best path
+4. Use "Export to Google Maps" to open the route in Google Maps
 
-## Technologies Used
+## Technologies
 
 - React
 - TypeScript
 - Vite
 - Tailwind CSS
-- Leaflet (mapping)
-- OpenStreetMap (geocoding)
-- GPX Parser
+- Leaflet/React-Leaflet
+- OSRM (Open Source Routing Machine)
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT License - See LICENSE file for details
+This project is licensed under the MIT License - see the LICENSE file for details.
