@@ -3,6 +3,7 @@ import type { Coordinates, RouteData, OptimizedRoute } from './types'
 import FileUpload from './components/FileUpload'
 import LocationInput from './components/LocationInput'
 import RouteMap from './components/RouteMap'
+import Spinner from './components/Spinner'
 import { optimizeRoute } from './api/mockApi'
 
 function App() {
@@ -95,9 +96,9 @@ function App() {
                 <button
                   onClick={handleOptimizeRoute}
                   disabled={!startLocation || waypoints.length === 0 || isLoading}
-                  className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
-                  {isLoading ? 'Optimizing...' : 'Optimize Route'}
+                  {isLoading ? <Spinner /> : 'Optimize Route'}
                 </button>
                 
                 <button
