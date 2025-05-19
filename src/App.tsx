@@ -71,10 +71,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+      <header className="bg-[#027D46] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">cacheroute.io</h1>
-          <p className="mt-1 text-sm text-gray-500">Optimize your geocaching adventures</p>
+          <h1 className="text-3xl font-bold text-white">cacheroute.io</h1>
+          <p className="mt-1 text-sm text-white">Optimize your geocaching adventures</p>
         </div>
       </header>
 
