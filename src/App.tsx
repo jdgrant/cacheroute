@@ -57,18 +57,38 @@ function App() {
   const handleExportToGoogleMaps = () => {
     if (!optimizedRoute || !startLocation) return
     
-    // Format: origin/destination/waypoints
-    const origin = `${startLocation.lat},${startLocation.lon}`
-    const destination = `${optimizedRoute.waypoints[optimizedRoute.waypoints.length - 1].lat},${optimizedRoute.waypoints[optimizedRoute.waypoints.length - 1].lon}`
+    const MAX_WAYPOINTS = 10; // Google Maps typically allows up to 10 waypoints in a single URL
+    const allPoints = [startLocation, ...optimizedRoute.waypoints];
     
-    // Remove the last waypoint as it's now the destination
-    const intermediatePoints = optimizedRoute.waypoints
-      .slice(0, -1)
-      .map(wp => `${wp.lat},${wp.lon}`)
-      .join('/')
-    
-    const url = `https://www.google.com/maps/dir/${origin}/${intermediatePoints ? intermediatePoints + '/' : ''}${destination}`
-    window.open(url, '_blank')
+    // If we have more than MAX_WAYPOINTS points, create multiple URLs
+    if (allPoints.length > MAX_WAYPOINTS) {
+      // Create segments of MAX_WAYPOINTS points each
+      for (let i = 0; i < allPoints.length; i += MAX_WAYPOINTS - 1) {
+        const segment = allPoints.slice(i, i + MAX_WAYPOINTS);
+        const origin = `${segment[0].lat},${segment[0].lon}`;
+        const destination = `${segment[segment.length - 1].lat},${segment[segment.length - 1].lon}`;
+        
+        // Remove first and last points as they are origin and destination
+        const waypoints = segment.slice(1, -1)
+          .map(wp => `${wp.lat},${wp.lon}`)
+          .join('/');
+        
+        const url = `https://www.google.com/maps/dir/${origin}/${waypoints ? waypoints + '/' : ''}${destination}`;
+        window.open(url, '_blank');
+      }
+    } else {
+      // For shorter routes, use a single URL
+      const origin = `${startLocation.lat},${startLocation.lon}`;
+      const destination = `${optimizedRoute.waypoints[optimizedRoute.waypoints.length - 1].lat},${optimizedRoute.waypoints[optimizedRoute.waypoints.length - 1].lon}`;
+      
+      const waypoints = optimizedRoute.waypoints
+        .slice(0, -1)
+        .map(wp => `${wp.lat},${wp.lon}`)
+        .join('/');
+      
+      const url = `https://www.google.com/maps/dir/${origin}/${waypoints ? waypoints + '/' : ''}${destination}`;
+      window.open(url, '_blank');
+    }
   }
 
   const handleDownloadGPX = () => {
